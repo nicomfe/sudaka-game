@@ -1,0 +1,10 @@
+{
+  "name": "sudaka-game",
+  "version": "0.0.1",
+  "directory": "public/",
+  "dependencies": {
+    "jQuery-SlotMachine": "jquery-slotmachine#^3.0.1"
+  },
+  "appPath": "app",
+  "moduleName": "sudakaGame"
+}

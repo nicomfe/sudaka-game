@@ -1,3 +1,118 @@
+:root {
+  /* Colors */
+  --primary: #e95d0f;
+  --text-color: black;
+}
+body {
+  height: 100%;
+  width: 100%;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  color: var(--text-color);
+}
+
 .sudaka-container {
-  background: red;
+  height: 100%;
+  width: 100%;
+  background: url('/images/background-besos.jpg');
+  background-size: cover;
+  background-repeat:   no-repeat;
+  background-position: center center;
+  bottom: 0;
+  top: 0;
+  position: absolute;
+}
+.sudaka-inner-container {
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
+  padding: 0 20px;
+}
+.sudaka-content,
+.sudaka-content form{
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+input[type="radio"] {
+  margin: 3px 0.5ex;
+  padding: initial;
+  border: initial;
+}
+
+.besos-logo {
+  padding-top: 30px;
+  max-width: 300px;
+  height: auto;
+}
+
+.sudaka-inputs {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}
+.sudaka-inputs div {
+  padding: 0 10px;
+}
+.sudaka-email-input {
+  width: 100%;
+  margin: 15px 0;
+  background-color: rgba(255, 255, 255, 0.188235);
+  box-shadow: rgba(1, 1, 1, 0.188235) 1.62px 2.79px 1px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 35px;
+  color: var(--text-color);
+  padding-left: 15px;
+  font-size: 15px;
+  border-width: 2px;
+  border-color: var(--primary);
+  border-style: solid;
+  border-radius: 4px;
+  outline: none;
+}
+.sudaka-button {
+  background-color: var(--primary);
+  margin-top: 15px;
+  box-shadow: rgba(1, 1, 1, 0.188235) 1.62px 2.79px 1px 0px;
+  width: 138px;
+  height: 38px;
+  color: rgb(255, 255, 255);
+  font-size: 19px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 4px;
+  border-style: none;
+  border-color: initial;
+  outline: none;
+}
+
+/*Machine style*/
+.slotMachine {
+  width: 200px;
+  height: 100px;
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  border-width: 1px;
+  border-style: solid;
+  border-color: var(--primary);
+  padding: 0px;
+  overflow: hidden;
+}
+.slot1, .slot2, .slot3, .slot4, .slot5 {
+  background-image: url('/images/icono-juego-1.png');
+}
+.slot {
+  height: auto;
+  width: 200px;
+  background-size: contain;
+}
+.machineContainer {
+  display: flex;
+  flex-direction: row;
 }

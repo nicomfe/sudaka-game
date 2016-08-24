@@ -3,117 +3,86 @@ angular.module("contactsApp", ['ngRoute'])
         $routeProvider
             .when("/", {
                 templateUrl: "main.html",
-                controller: "MainController",
-                resolve: {
-                    contacts: function(Contacts) {
-                        return Contacts.getContacts();
-                    }
-                }
-            })
-            .when("/new/contact", {
-                controller: "NewContactController",
-                templateUrl: "contact-form.html"
-            })
-            .when("/contact/:contactId", {
-                controller: "EditContactController",
-                templateUrl: "contact.html"
+                controller: "MainController"
             })
             .otherwise({
                 redirectTo: "/"
             })
     })
-    .service("Contacts", function($http) {
-        this.getContacts = function() {
-            return $http.get("/contacts").
-                then(function(response) {
-                    return response;
-                }, function(response) {
-                    alert("Error finding contacts.");
-                });
-        }
-        this.createContact = function(contact) {
-            return $http.post("/contacts", contact).
-                then(function(response) {
-                    return response;
-                }, function(response) {
-                    alert("Error creating contact.");
-                });
-        }
-        this.getContact = function(contactId) {
-            var url = "/contacts/" + contactId;
-            return $http.get(url).
-                then(function(response) {
-                    return response;
-                }, function(response) {
-                    alert("Error finding this contact.");
-                });
-        }
-        this.editContact = function(contact) {
-            var url = "/contacts/" + contact._id;
-            console.log(contact._id);
-            return $http.put(url, contact).
-                then(function(response) {
-                    return response;
-                }, function(response) {
-                    alert("Error editing this contact.");
-                    console.log(response);
-                });
-        }
-        this.deleteContact = function(contactId) {
-            var url = "/contacts/" + contactId;
-            return $http.delete(url).
-                then(function(response) {
-                    return response;
-                }, function(response) {
-                    alert("Error deleting this contact.");
-                    console.log(response);
-                });
-        }
-    })
-    .controller("MainController", function($scope) {
-
-    })
-    .controller("ListController", function(contacts, $scope) {
-        $scope.contacts = contacts.data;
-    })
-    .controller("NewContactController", function($scope, $location, Contacts) {
-        $scope.back = function() {
-            $location.path("#/");
-        }
-
-        $scope.saveContact = function(contact) {
-            Contacts.createContact(contact).then(function(doc) {
-                var contactUrl = "/contact/" + doc.data._id;
-                $location.path(contactUrl);
+    .service("SudakaService", function($http) {
+        this.addSudaka = function(sudaka) {
+          return $http.post("/api/sudaka", sudaka).
+            then(function(response) {
+                return response;
             }, function(response) {
-                alert(response);
+                alert("Error creating contact.");
             });
         }
     })
-    .controller("EditContactController", function($scope, $routeParams, Contacts) {
-        Contacts.getContact($routeParams.contactId).then(function(doc) {
-            $scope.contact = doc.data;
-        }, function(response) {
-            alert(response);
-        });
+    .controller("MainController", function($scope, SudakaService) {
+      $scope.addSudaka = function() {
+        if ($scope.sudakaForm || $scope.sudakaForm.$invalid) {
+              $scope.showSudakaMachine = true;
+              var _this = this;
+              // SudakaService.addSudaka($scope.sudaka).then(function(b) {
+              //     console.log('success',b)
+              // }, function(error) {
+              //   console.log('error', error)
+              // })
+          }
+      }
 
-        $scope.toggleEdit = function() {
-            $scope.editMode = true;
-            $scope.contactFormUrl = "contact-form.html";
-        }
+      $scope.wins = 0
+      $scope.rounds = 0
+      $scope.machine1 = jQuery("#machine1").slotMachine({
+        active: 0,
+        delay: 500
+      })
+      $scope.machine2 = jQuery("#machine2").slotMachine({
+        active: 1,
+        delay: 500,
+        direction: "down"
+      })
+      $scope.machine3 = jQuery("#machine3").slotMachine({
+        active: 2,
+        delay: 500
+      })
 
+      $scope.play = function() {
+        $scope.trickMachine(), jQuery("#slotMachineButton1").click(function() {
+            $scope.machine1.shuffle(5, $scope.onComplete), setTimeout(function() {
+                $scope.machine2.shuffle(5, $scope.onComplete)
+            }, 500), setTimeout(function() {
+                $scope.machine3.shuffle(5, $scope.onComplete)
+            }, 1e3), setTimeout(function() {
+                $scope.publishResult()
+            }, 4e3)
+        })
+      }
+
+      $scope.trickMachine = function(a, b) {
+        $scope.rounds = $scope.rounds + 1;
+        var c = $scope.getRandomBoolean();
+        $scope.rounds > 100 && ($scope.rounds = 0), c && $scope.wins < 3 && ($scope.wins = $scope.wins + 1, $scope.machine1.futureActive = 0, $scope.machine2.futureActive = 0, $scope.machine3.futureActive = 0)
+      }
+
+      $scope.getRandomBoolean = function() {
+        var a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+            b = Math.floor(Math.random() * a.length);
+        return a[b]
+      }
+      $scope.publishResult = function() {
+          jQuery("#machine1Result").text() === jQuery("#machine2Result").text() && jQuery("#machine2Result").text() === jQuery("#machine3Result").text() ? $scope.result = "Heeey you won an entry ticket!" : $scope.result = "Sorry you are not a winner, Enjoy the party!", $scope.$apply();
+          var _this = $scope;
+          setTimeout(function() {
+              _this.showSudakaMachine = false;
+              _this.result = "";
+              _this.$apply();
+          }, 500)
+      }
+    })
+    .controller("NewContactController", function($scope, $location) {
         $scope.back = function() {
-            $scope.editMode = false;
-            $scope.contactFormUrl = "";
-        }
-
-        $scope.saveContact = function(contact) {
-            Contacts.editContact(contact);
-            $scope.editMode = false;
-            $scope.contactFormUrl = "";
-        }
-
-        $scope.deleteContact = function(contactId) {
-            Contacts.deleteContact(contactId);
+            $location.path("#/");
         }
     });

@@ -5,7 +5,7 @@ var mongodb = require("mongodb");
 var ObjectID = mongodb.ObjectID;
 
 var CONTACTS_COLLECTION = "contacts";
-
+var SUDAKA_COLLECTION = "sudaka";
 var app = express();
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 // Create a database variable outside of the database connection callback to reuse the connection pool in your app.
 var db;
 
-// Connect to the database before starting the application server. 
+// Connect to the database before starting the application server.
 mongodb.MongoClient.connect(process.env.MONGODB_URI, function (err, database) {
   if (err) {
     console.log(err);
@@ -49,7 +49,7 @@ app.get("/contacts", function(req, res) {
     if (err) {
       handleError(res, err.message, "Failed to get contacts.");
     } else {
-      res.status(200).json(docs);  
+      res.status(200).json(docs);
     }
   });
 });
@@ -71,6 +71,40 @@ app.post("/contacts", function(req, res) {
   });
 });
 
+app.post("/api/sudaka", function(req, res) {
+  var newSudaka = req.body;
+  newSudaka.createDate = new Date();
+
+  if (!(req.body.email && req.body.status)) {
+    handleError(res, "Invalid user input", "Must provide a name and status.", 400);
+  }
+
+  try {
+    db.collection(SUDAKA_COLLECTION).insertOne(newSudaka, function(err, doc) {
+      if (err) {
+        console.log('error', err)
+      }
+    });
+  }catch(err){
+    console.log(err)
+  }
+
+  var Mailchimp = require('mailchimp-api-v3')
+  var mailchimp = new Mailchimp('4f3bfc3425b5eead7fa77f88e0f995ff-us3');
+  mailchimp.post('lists/038663d8ae/members', {
+    email_address : req.body.email,
+    status : 'subscribed',
+    MMERGE3: req.body.status,
+    'merge_fields': {
+        MMERGE3: req.body.status
+    }
+  }).then(function(results) {
+    res.status(201).json(results);
+  }, function(error) {
+    console.log('mailchimp error', error)
+  })
+});
+
 /*  "/contacts/:id"
  *    GET: find contact by id
  *    PUT: update contact by id
@@ -82,7 +116,7 @@ app.get("/contacts/:id", function(req, res) {
     if (err) {
       handleError(res, err.message, "Failed to get contact");
     } else {
-      res.status(200).json(doc);  
+      res.status(200).json(doc);
     }
   });
 });

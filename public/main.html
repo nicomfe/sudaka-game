@@ -1,3 +1,50 @@
-<div class="sudaka-container">
-  asdadsasd
+<div class="sudaka-content" ng-show="!showSudakaMachine">
+  <img class="besos-logo" src="/images/image-app.png" alt="besos latinos - sudaka" />
+  <form name="sudakaForm" class="ng-pristine ng-valid-email ng-invalid ng-invalid-required">
+    <label for="email">
+      Enter your email and click play below to win FREE ticket entry or a FREE dinner at Besos Latinos!
+    </label>
+    <input
+      class="sudaka-email-input input-email ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required"
+      type="email"
+      name="email"
+      ng-model="sudaka.email"
+      required>
+      <div class="sudaka-inputs input-form-group radio-button-group">
+        <div class="input-radio">
+          <input type="radio" name="status" ng-model="sudaka.status" value="Resident" required="" class="ng-pristine ng-untouched ng-invalid ng-invalid-required">
+          Resident
+        </div>
+        <div class="input-radio">
+          <input type="radio" name="status" ng-model="sudaka.status" value="Traveller" required="" class="ng-pristine ng-untouched ng-invalid ng-invalid-required">
+          Traveller
+        </div>
+        <div class="input-radio">
+          <input type="radio" name="status" ng-model="sudaka.status" value="Student" required="" class="ng-pristine ng-untouched ng-invalid ng-invalid-required">
+          Student
+        </div>
+      </div>
+      <button type="submit" class="form-submit sudaka-button" ng-click="addSudaka()">PLAY</button>
+  </form>
+</div>
+<div class="sudaka-machine-content" ng-show="showSudakaMachine">
+  <div class="machineContainer">
+    <div id="machine1" class="slotMachine" style="overflow: hidden;">
+      <div class="slotMachineContainer" style="transition: 1s ease-in-out; transform: matrix(1, 0, 0, 1, 0, -100);">
+
+      </div>
+    </div>
+    <div id="machine2" class="slotMachine" style="overflow: hidden;">
+      <div class="slotMachineContainer" style="transition: 1s ease-in-out; transform: matrix(1, 0, 0, 1, 0, -200);">
+      </div>
+    </div>
+    <div id="machine3" class="slotMachine" style="overflow: hidden;">
+      <div class="slotMachineContainer" style="transition: 1s ease-in-out; transform: matrix(1, 0, 0, 1, 0, -300);">
+      </div>
+    </div>
+    <button id="slotMachineButton1" class="slotMachineButton sudaka-button" ng-click="play()">GO!</button>
+    <div id="machine1Result" class="col-xs-4 machineResult">Index: 0</div>
+    <div id="machine2Result" class="col-xs-4 machineResult">Index: 1</div>
+    <div id="machine3Result" class="col-xs-4 machineResult">Index: 2</div>
+  </div>
 </div>
