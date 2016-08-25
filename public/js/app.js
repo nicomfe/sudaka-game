@@ -15,7 +15,7 @@ angular.module("contactsApp", ['ngRoute'])
             then(function(response) {
                 return response;
             }, function(response) {
-                alert("Error creating contact.");
+                console.log(response)
             });
         }
     })
@@ -24,65 +24,96 @@ angular.module("contactsApp", ['ngRoute'])
         if ($scope.sudakaForm || $scope.sudakaForm.$invalid) {
               $scope.showSudakaMachine = true;
               var _this = this;
-              // SudakaService.addSudaka($scope.sudaka).then(function(b) {
-              //     console.log('success',b)
-              // }, function(error) {
-              //   console.log('error', error)
-              // })
+              var sudakaData = $scope.sudaka;
+              SudakaService.addSudaka(sudakaData);
+              $scope.clearSudaka();
           }
       }
 
-      $scope.wins = 0
-      $scope.rounds = 0
-      $scope.machine1 = jQuery("#machine1").slotMachine({
-        active: 0,
-        delay: 500
-      })
-      $scope.machine2 = jQuery("#machine2").slotMachine({
-        active: 1,
-        delay: 500,
-        direction: "down"
-      })
-      $scope.machine3 = jQuery("#machine3").slotMachine({
-        active: 2,
-        delay: 500
-      })
-
-      $scope.play = function() {
-        $scope.trickMachine(), jQuery("#slotMachineButton1").click(function() {
-            $scope.machine1.shuffle(5, $scope.onComplete), setTimeout(function() {
-                $scope.machine2.shuffle(5, $scope.onComplete)
-            }, 500), setTimeout(function() {
-                $scope.machine3.shuffle(5, $scope.onComplete)
-            }, 1e3), setTimeout(function() {
-                $scope.publishResult()
-            }, 4e3)
-        })
+      $scope.clearSudaka = function() {
+        $scope.sudaka = null
       }
+      var machine4 = $("#casino1").slotMachine({
+        active	: 0,
+        delay	: 500
+      });
 
-      $scope.trickMachine = function(a, b) {
+      var machine5 = $("#casino2").slotMachine({
+        active	: 1,
+        delay	: 500
+      });
+
+      var machine6 = $("#casino3").slotMachine({
+        active	: 2,
+        delay	: 500
+      });
+
+      var started = 0;
+      $scope.wins = 0;
+      $("#slotMachineButtonShuffle").click(function(){
+        started = 3;
+        $scope.trickMachine()
+        machine4.shuffle(5);
+        machine5.shuffle(5);
+        machine6.shuffle(5);
+        setTimeout(function() {
+          $scope.publishResult()
+        }, 3600)
+      });
+
+      $scope.trickMachine = function() {
         $scope.rounds = $scope.rounds + 1;
-        var c = $scope.getRandomBoolean();
-        $scope.rounds > 100 && ($scope.rounds = 0), c && $scope.wins < 3 && ($scope.wins = $scope.wins + 1, $scope.machine1.futureActive = 0, $scope.machine2.futureActive = 0, $scope.machine3.futureActive = 0)
+        var win = $scope.getRandomBoolean();
+        if($scope.rounds > 100){
+          $scope.rounds = 0
+        }
+        if(win === 1) {
+          machine4.futureActive = 5
+          machine5.futureActive = 5
+          machine6.futureActive = 5
+        }
+        if(win === 2) {
+          machine4.futureActive = 3
+          machine5.futureActive = 3
+          machine6.futureActive = 3
+        }
+      }
+      $scope.getRandomBoolean = function() {
+        var sudakaChances = [];
+        for(var i=0 ; i< 99 ; i++) {
+          sudakaChances.push(0);
+        }
+        sudakaChances.push(1);
+        var sudakaRandom = Math.floor(Math.random() * sudakaChances.length);
+        if(sudakaChances[sudakaRandom] === 1) {
+          return sudakaChances[sudakaRandom];
+        }
+        var besosChances = [];
+        for(var i=0 ; i< 999 ; i++) {
+          besosChances.push(0);
+        }
+        besosChances.push(2);
+        var besosRandom = Math.floor(Math.random() * sudakaChances.length);
+        return besosChances[besosRandom]
       }
 
-      $scope.getRandomBoolean = function() {
-        var a = [0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
-            b = Math.floor(Math.random() * a.length);
-        return a[b]
-      }
       $scope.publishResult = function() {
-          jQuery("#machine1Result").text() === jQuery("#machine2Result").text() && jQuery("#machine2Result").text() === jQuery("#machine3Result").text() ? $scope.result = "Heeey you won an entry ticket!" : $scope.result = "Sorry you are not a winner, Enjoy the party!", $scope.$apply();
+          if(machine4.active === machine5.active && machine5.active === machine6.active) {
+            if(machine4.active === 5) {
+              $scope.result = "Congratulations you’ve won a FREE ticket for Sudaka Dantesque claim it with the staff!"
+            } else {
+              $scope.result = "Congratulations you’ve won a $50 dollars voucher for Besos Latinos! Claim your prize with the staff!"
+            }
+
+          }else {
+            $scope.result = "Sorry you are not a winner this time but we will send you a little gift at your email ;) Enjoy the party!"
+          }
+          $scope.$apply()
           var _this = $scope;
           setTimeout(function() {
               _this.showSudakaMachine = false;
               _this.result = "";
               _this.$apply();
-          }, 500)
+          }, 3600)
       }
-    })
-    .controller("NewContactController", function($scope, $location) {
-        $scope.back = function() {
-            $location.path("#/");
-        }
     });

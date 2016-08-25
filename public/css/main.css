@@ -26,7 +26,6 @@ body {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  display: table;
   padding: 0 20px;
 }
 .sudaka-content,
@@ -46,8 +45,11 @@ input[type="radio"] {
 
 .besos-logo {
   padding-top: 30px;
-  max-width: 300px;
+  max-width: 500px;
   height: auto;
+  margin-left: auto;
+  margin-right: auto;
+  display: table;
 }
 
 .sudaka-inputs {
@@ -93,26 +95,59 @@ input[type="radio"] {
 }
 
 /*Machine style*/
-.slotMachine {
-  width: 200px;
-  height: 100px;
-  text-align: center;
-  background-color: rgb(255, 255, 255);
-  border-width: 1px;
-  border-style: solid;
-  border-color: var(--primary);
-  padding: 0px;
-  overflow: hidden;
-}
-.slot1, .slot2, .slot3, .slot4, .slot5 {
+.slot1 {
   background-image: url('/images/icono-juego-1.png');
 }
-.slot {
-  height: auto;
-  width: 200px;
-  background-size: contain;
+.slot2 {
+  background-image: url('/images/icono-juego-2.png');
 }
-.machineContainer {
-  display: flex;
-  flex-direction: row;
+.slot3 {
+  background-image: url('/images/icono-juego-3.png');
+}
+.slot4 {
+  background-image: url('/images/icono-juego-4.png');
+}
+.slot5 {
+  background-image: url('/images/icono-juego-5.png');
+}
+.slot6 {
+  background-image: url('/images/icono-juego-6.png');
+}
+
+.machineResult {
+  display: none;
+}
+
+.btn-group-casino{
+  padding-bottom: 20px;
+  margin-top: 10px;
+}
+
+.slotMachine {
+  width: 32.333333%;
+  border: 2px solid var(--primary);
+  height: 100px;
+  padding: 0px;
+  overflow: hidden;
+  display: inline-block;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+#casino .content > div {
+  clear: both;
+  width: 300px;
+  margin: 0 auto;
+}
+
+#casino .content:nth-child(1) {
+  text-align: center;
+  height: 580px;
+}
+
+.slotMachine .slot {
+  height: 100px;
+  background-position-x: 55%;
+  background-repeat: no-repeat;
+  background-size: contain;
 }

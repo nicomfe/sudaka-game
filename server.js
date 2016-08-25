@@ -90,7 +90,7 @@ app.post("/api/sudaka", function(req, res) {
   }
 
   var Mailchimp = require('mailchimp-api-v3')
-  var mailchimp = new Mailchimp('4f3bfc3425b5eead7fa77f88e0f995ff-us3');
+  var mailchimp = new Mailchimp(process.env.MAILCHIMP_KEY);
   mailchimp.post('lists/038663d8ae/members', {
     email_address : req.body.email,
     status : 'subscribed',
@@ -99,6 +99,7 @@ app.post("/api/sudaka", function(req, res) {
         MMERGE3: req.body.status
     }
   }).then(function(results) {
+    console.log('success', results)
     res.status(201).json(results);
   }, function(error) {
     console.log('mailchimp error', error)

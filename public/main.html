@@ -27,24 +27,45 @@
       <button type="submit" class="form-submit sudaka-button" ng-click="addSudaka()">PLAY</button>
   </form>
 </div>
-<div class="sudaka-machine-content" ng-show="showSudakaMachine">
-  <div class="machineContainer">
-    <div id="machine1" class="slotMachine" style="overflow: hidden;">
-      <div class="slotMachineContainer" style="transition: 1s ease-in-out; transform: matrix(1, 0, 0, 1, 0, -100);">
+<div ng-show="showSudakaMachine">
+  <img class="besos-logo" src="/images/image-app.png" alt="besos latinos - sudaka" />
+  <div id="casino" style="padding-top:50px;">
+    <div class="content">
+      <div>
+        <div id="casino1" class="slotMachine" style="margin-left: -1px;">
+          <div class="slot slot1"></div>
+          <div class="slot slot2"></div>
+          <div class="slot slot3"></div>
+          <div class="slot slot4"></div>
+          <div class="slot slot5"></div>
+          <div class="slot slot6"></div>
+        </div>
 
+        <div id="casino2" class="slotMachine">
+          <div class="slot slot1"></div>
+          <div class="slot slot2"></div>
+          <div class="slot slot3"></div>
+          <div class="slot slot4"></div>
+          <div class="slot slot5"></div>
+          <div class="slot slot6"></div>
+        </div>
+
+        <div id="casino3" class="slotMachine">
+          <div class="slot slot1"></div>
+          <div class="slot slot2"></div>
+          <div class="slot slot3"></div>
+          <div class="slot slot4"></div>
+          <div class="slot slot5"></div>
+          <div class="slot slot6"></div>
+        </div>
+
+        <div class="btn-group btn-group-justified btn-group-casino" role="group">
+          <div id="slotMachineButtonShuffle" type="button" class="btn slotMachineButton sudaka-button">GO!</div>
+        </div>
+        <span class="result" ng-bind="result"></span>
       </div>
+
     </div>
-    <div id="machine2" class="slotMachine" style="overflow: hidden;">
-      <div class="slotMachineContainer" style="transition: 1s ease-in-out; transform: matrix(1, 0, 0, 1, 0, -200);">
-      </div>
-    </div>
-    <div id="machine3" class="slotMachine" style="overflow: hidden;">
-      <div class="slotMachineContainer" style="transition: 1s ease-in-out; transform: matrix(1, 0, 0, 1, 0, -300);">
-      </div>
-    </div>
-    <button id="slotMachineButton1" class="slotMachineButton sudaka-button" ng-click="play()">GO!</button>
-    <div id="machine1Result" class="col-xs-4 machineResult">Index: 0</div>
-    <div id="machine2Result" class="col-xs-4 machineResult">Index: 1</div>
-    <div id="machine3Result" class="col-xs-4 machineResult">Index: 2</div>
+    <div class="clearfix"></div>
   </div>
 </div>
