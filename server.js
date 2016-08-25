@@ -99,7 +99,6 @@ app.post("/api/sudaka", function(req, res) {
         MMERGE3: req.body.status
     }
   }).then(function(results) {
-    console.log('success', results)
     res.status(201).json(results);
   }, function(error) {
     console.log('mailchimp error', error)
