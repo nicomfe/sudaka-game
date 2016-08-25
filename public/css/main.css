@@ -1,14 +1,10 @@
-:root {
-  /* Colors */
-  --primary: #e95d0f;
-  --text-color: black;
-}
+
 body {
   height: 100%;
   width: 100%;
   font-family: "Open Sans", sans-serif;
   font-size: 18px;
-  color: var(--text-color);
+  color: black;
 }
 
 .sudaka-container {
@@ -45,6 +41,7 @@ input[type="radio"] {
 
 .besos-logo {
   padding-top: 30px;
+  width: 100%;
   max-width: 500px;
   height: auto;
   margin-left: auto;
@@ -69,17 +66,17 @@ input[type="radio"] {
   align-items: center;
   justify-content: center;
   height: 35px;
-  color: var(--text-color);
+  color: black;
   padding-left: 15px;
   font-size: 15px;
   border-width: 2px;
-  border-color: var(--primary);
+  border-color: #e95d0f;
   border-style: solid;
   border-radius: 4px;
   outline: none;
 }
 .sudaka-button {
-  background-color: var(--primary);
+  background-color: #e95d0f;
   margin-top: 15px;
   box-shadow: rgba(1, 1, 1, 0.188235) 1.62px 2.79px 1px 0px;
   width: 138px;
@@ -125,7 +122,7 @@ input[type="radio"] {
 
 .slotMachine {
   width: 32.333333%;
-  border: 2px solid var(--primary);
+  border: 2px solid #e95d0f !important;
   height: 100px;
   padding: 0px;
   overflow: hidden;
@@ -136,7 +133,7 @@ input[type="radio"] {
 
 #casino .content > div {
   clear: both;
-  width: 300px;
+  width: 100%;
   margin: 0 auto;
 }
 
